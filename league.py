@@ -21,6 +21,16 @@ class League:
 		self.teams = []
 		self.rankedTeams = []
 
+	def resetSeen(self):
+		for team in self.teams:
+			team.seen = False
+
+	def getWinChain(self, team1, team2):
+		team1.seen = True
+		chain = [team1] + self.winChain(team1, team2)
+		self.resetSeen()
+		return chain
+
 	def winChain(self, team1, team2):
 		"""Finds the shortest path (of wins) between team1 and team2 using Dijkstra's algortithm"""
 		currentChain = []
@@ -37,6 +47,14 @@ class League:
 					currentChain = newChain
 		return currentChain
 
+	def positionOfTeam(self, name):
+		currentPos = 0
+		pos = 0
+		for team in self.teams:
+			if team.name == name:
+				pos = currentPos
+			currentPos += 1
+		return pos
 
 if __name__ == "__main__":
 	bengals = Team("bengals")
